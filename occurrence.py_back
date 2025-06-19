@@ -1,0 +1,23 @@
+import logparser
+
+log = open('access.log','r')
+
+counter = {}
+
+for line in log:
+  dict1 = logparser.Parser(line)
+  if dict1 is not None:
+    time = dict1["time"]
+    ip = dict1["host"]
+    status = dict1["status"]
+    if ip in counter:
+        counter[ip] = counter[ip] + 1
+    else:
+        counter[ip] = 1
+
+file = open('occurrence.txt','w')
+for ip in counter:
+    no =    counter[ip]
+    result = "{:20} : {:3}\n".format(ip,no)
+    file.write(result)
+file.close()
